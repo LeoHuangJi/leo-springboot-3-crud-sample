@@ -1,0 +1,9 @@
+| Trường hợp                     | `HttpStatus`                | `appCode`              | Ghi chú thêm                                           |
+| ------------------------------ | --------------------------- | ---------------------- | ------------------------------------------------------ |
+| ✅ Thành công                   | `200 OK`, `201 CREATED`     | `0000`, `0001`         | appCode nên là `0xxx`                                  |
+| ❌ Dữ liệu đầu vào không hợp lệ | `400 BAD_REQUEST`           | `4001`, `4002`, …      | Ví dụ: thiếu field, sai định dạng                      |
+| ❌ Không xác thực (token)       | `401 UNAUTHORIZED`          | `4101`, `4102`, …      | Token hết hạn, không có token                          |
+| ❌ Không có quyền truy cập      | `403 FORBIDDEN`             | `4301`, `4302`, …      | Người dùng không được phép thao tác                    |
+| ❌ Không tìm thấy dữ liệu       | `404 NOT_FOUND`             | `4401`, `4402`, `4403` | Tutorial/user/... không tồn tại                        |
+| ❌ Vi phạm nghiệp vụ            | `422 UNPROCESSABLE_ENTITY`  | `4601`, `4602`, …      | Ví dụ: trạng thái không cho phép, ràng buộc bị vi phạm |
+| ❌ Lỗi hệ thống                 | `500 INTERNAL_SERVER_ERROR` | `5000`, `5001`, …      | Exception, lỗi DB, service fail                        |

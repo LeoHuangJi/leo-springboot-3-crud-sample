@@ -1,0 +1,83 @@
+spring:
+  main:
+    web-application-type: servlet
+  application:
+    name: 'Leoo Auth'
+  datasource:
+    username: shopli
+    password: shopli
+    url: jdbc:oracle:thin:@localhost:1521:orcl
+    driver-class-name: oracle.jdbc.OracleDriver
+
+  jpa:
+    show-sql: true
+    open-in-view: false
+    properties:
+      hibernate:
+        order_inserts: true
+        order_updates: true
+        jdbc:
+          batch_size: 100
+        connection:
+          provider_disables_autocommit: false
+        format_sql: true
+        proc:
+          param_null_passing: true
+        query:
+          fail_on_pagination_over_collection_fetch: true
+          in_clause_parameter_padding: true
+        dialect: org.hibernate.dialect.OracleDialect
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 5014057553-8gm9um6vnli3cle5rgigcdjpdrid14m9.apps.googleusercontent.com
+            client-secret: tWZKVLxaD_ARWsriiiUFYoIk
+            redirect-uri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - email
+              - profile
+          facebook:
+            client-id: 121189305185277
+            client-secret: 42ffe5aa7379e8326387e0fe16f34132
+            redirect-uri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - email
+              - public_profile
+          github:
+            client-id: d3e47fc2ddd966fa4352
+            client-secret: 3bc0f6b8332f93076354c2a5bada2f5a05aea60d
+            redirect-uri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - user:email
+              - read:user
+        provider:
+          facebook:
+            authorization-uri: https://www.facebook.com/v3.0/dialog/oauth
+            token-uri: https://graph.facebook.com/v3.0/oauth/access_token
+            user-info-uri: https://graph.facebook.com/v3.0/me?fields=id,first_name,middle_name,last_name,name,email,verified,is_verified,picture.width(250).height(250)
+
+app:
+  auth:
+    tokenSecret: 04ca023b39512e46d0c2cf4b48d5aac61d34302994c87ed4eff225dcf3b0a218739f3897051a057f9b846a69ea2927a587044164b7bae5e1306219d50b588cb1
+    tokenExpirationMsec: 12000000000 # 10 phut
+
+  cors:
+    allowedOrigins: http://localhost:3000,http://localhost:8080
+
+  oauth2:
+    authorizedRedirectUris:
+      - http://localhost:3000/oauth2/redirect
+      - myandroidapp://oauth2/redirect
+      - myiosapp://oauth2/redirect
+logging:
+  level:
+    org.springframework.security: info
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method

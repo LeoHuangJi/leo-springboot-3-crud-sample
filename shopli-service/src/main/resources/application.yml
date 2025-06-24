@@ -1,0 +1,106 @@
+#spring.datasource.url=jdbc:oracle:thin:@localhost:1521:orcl
+#spring.datasource.username=shopli
+#spring.datasource.password=shopli
+#spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
+
+#spring.jpa.hibernate.ddl-auto=update
+#spring.jpa.properties.hibernate.format_sql=true
+#spring.jpa.show-sql=true
+#logging.level.org.hibernate.SQL=DEBUG
+#logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
+server:
+  port: 8090
+spring:
+  messages.basename: message # cấu hình file message
+  messages.encoding: UTF-8
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: your-google-client-id
+            client-secret: your-google-client-secret
+            scope:
+              - email
+              - profile
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+  application:
+    name: 'ShopLi'
+
+  jmx:
+    enabled: false
+  cloud:
+    config:
+      enabled: false
+  jackson:
+    serialization:
+      write-dates-as-timestamps: true
+  datasource.username: shopli
+  datasource.password: shopli
+  datasource.url: jdbc:oracle:thin:@localhost:1521:orcl
+  datasource.driver-class-name: oracle.jdbc.OracleDriver
+  jpa:
+    show_sql: true
+    open-in-view: false
+    properties:
+      hibernate:
+        order_inserts: true
+        order_updates: true
+        jdbc.batch_size: 100
+        connection.provider_disables_autocommit: false
+        format_sql: true
+        proc.param_null_passing: true
+        query.fail_on_pagination_over_collection_fetch: true
+        query.mutation_strategy.global_temporary.create_tables: false     
+        query.in_clause_parameter_padding: true
+        hibernate.dialect: org.hibernate.dialect.Oracle12cDialect
+
+  kafka:
+    listener:
+      ack-mode: manual
+    bootstrap-servers: localhost:9092   
+    consumer:
+      enable-auto-commit: false
+      bootstrap-servers: localhost:9092
+      group-id: group-id
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring:
+           json:
+             trusted:
+               packages: vn.kafka.app.*
+           deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+           deserializer.value.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+shedlock:
+  job.cron: 0/30 * * * * *
+  job.lockAtLeastFor: 30s
+  job.lockAtMostFor: 10m
+toggle.check.role: ''
+qtud.permission.path: ''
+qtud.ip: ''
+management.tracing.enabled: false
+management.tracing.sampling.probability: 0.0
+management.endpoints.jmx.exposure.exclude: beans
+jwt:
+  auth:
+    tokenSecret: 04ca023b39512e46d0c2cf4b48d5aac61d34302994c87ed4eff225dcf3b0a218739f3897051a057f9b846a69ea2927a587044164b7bae5e1306219d50b588cb1
+    tokenExpirationMsec: 120000 # 2 phút
+logging.level.org.springframework.boot.autoconfigure.security: ERROR
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    display-request-duration: true
+    persistAuthorization: true
+

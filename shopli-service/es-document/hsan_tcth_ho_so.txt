@@ -1,0 +1,165 @@
+
+{
+    "settings": {
+        "index": {
+            "number_of_shards": 1,
+            "number_of_replicas": 1,
+            "auto_expand_replicas": "0-1",
+            "analysis": {
+                "analyzer": {
+                    "hsan_analyzer": {
+                        "tokenizer": "standard",
+                        "char_filter": [
+                            "html_strip"
+                        ],
+                        "filter": [
+                            "lowercase",
+                            "asciifolding"
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    "mappings": {
+        "properties": {
+            "id": {
+                "type": "text"
+            },
+            "maHoSo": {
+                "type": "keyword"
+            },
+            "maLoaiHoSo": {
+                "type": "keyword"
+            },
+            "tenLoaiHoSo": {
+                "type": "text"
+            },
+            "tenHeLucLuong": {
+                "type": "text",
+                "analyzer": "hsan_analyzer"
+            },
+            "maHeLucLuong": {
+                "type": "keyword"
+            },
+            "maLoaiLucLuong": {
+                "type": "keyword"
+            },
+            "maLoaiDoiTuong": {
+                "type": "keyword"
+            },
+            "maTinhTrang": {
+                "type": "keyword"
+            },
+            "tenTinhTrang": {
+                "type": "text",
+                "analyzer": "hsan_analyzer"
+            },
+            "maDoMat": {
+                "type": "keyword"
+            },
+            "chuTri": {
+                "type": "text"
+            },
+            "trichYeu": {
+                "type": "text",
+                "analyzer": "hsan_analyzer"
+            },
+            "soDangKy": {
+                "type": "text"
+            },
+             "soDangKyWildcard": {
+                "type": "wildcard"
+            },
+            "maChuyenDeHoSoNghiepVu": {
+                "type": "text"
+            },
+            "ganThe": {
+                "type": "long"
+            },
+            "donViLuuTru": {
+                "type": "text"
+            },
+            "maDonViCbql": {
+                "type": "text"
+            },
+            "maDonViNghiepVu": {
+                "type": "text"
+            },
+            "maDonViHoSo": {
+                "type": "keyword"
+            },
+            "canBoQuanLy": {
+                "type": "text",
+                "analyzer": "hsan_analyzer"
+            },
+            "tenCanBoQuanLy": {
+                "type": "text",
+                "analyzer": "hsan_analyzer"
+            },
+            "lstTapHoSo": {
+                "type": "nested",
+                "properties": {
+                    "tk": {
+                        "type": "text"
+                    },
+                    "ten": {
+                        "type": "text",
+                        "analyzer": "hsan_analyzer"
+                    }
+                }
+            },
+            "ngayLap": {
+                "type": "date",
+                "format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd'T'HH:mm:ss.SSSZ||epoch_millis"
+            },
+            "ngayDangKy": {
+                "type": "date",
+                "format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd'T'HH:mm:ss.SSSZ||epoch_millis"
+            },
+            "ngayNhan": {
+                "type": "date",
+                "format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd'T'HH:mm:ss.SSSZ||epoch_millis"
+            },
+            "lstTamDinhChi": {
+                "type": "nested",
+                "properties": {
+                    "thoiGian": {
+                        "type": "date",
+                        "format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd'T'HH:mm:ss.SSSZ||epoch_millis"
+                    }
+                }
+            },
+            "lstNgayThatLac": {
+                "type": "nested",
+                "properties": {
+                    "thoiGian": {
+                        "type": "date",
+                        "format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd'T'HH:mm:ss.SSSZ||epoch_millis"
+                    }
+                }
+            },
+            "lstNgayPhucHoi": {
+                "type": "nested",
+                "properties": {
+                    "thoiGian": {
+                        "type": "date",
+                        "format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd'T'HH:mm:ss.SSSZ||epoch_millis"
+                    }
+                }
+            },
+            "ngayKetThuc": {
+                "type": "date",
+                "format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd'T'HH:mm:ss.SSSZ||epoch_millis"
+            },
+            "ngayNopLuu": {
+                "type": "date",
+                "format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd'T'HH:mm:ss.SSSZ||epoch_millis"
+            },
+            "maLyDoKetThuc": {
+                "type": "keyword"
+            },
+ 
+        }
+    }
+}

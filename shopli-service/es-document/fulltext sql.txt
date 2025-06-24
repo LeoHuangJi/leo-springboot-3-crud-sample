@@ -1,0 +1,5 @@
+create index trichyeu_khong_dau_fulltext on tbl_ho_so(trich_yeu_khong_dau) indextype is ctxsys.context;
+--drop index trichyeu_fulltext
+begin 
+ctx_ddl.sync_index('trichyeu_khong_dau_fulltext');
+end;

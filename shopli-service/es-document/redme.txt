@@ -1,0 +1,33 @@
+http://localhost:8310/api/v1/hoso/es-push
+
+put: https://172.16.44.14:9200/_settings
+{
+    "index.max_result_window":100000000 / cấu hình số luowngjbanr ghi tra ve
+}
+
+# push noi nganh
+http://172.16.48.1:8310/api/v1/tttheA2/es-push?size=6000
+http://172.16.48.1:8310/api/v1/hoso/es-push?size=6000
+#tuyet mat tw
+http://172.16.51.1:8310/api/v1/tttheA1/es-push?size=1000
+http://172.16.51.1:8310/api/v1/tttheA2/es-push?size=1000
+http://172.16.51.1:8310/api/v1/tttheA8/es-push?size=1000
+
+#tuyet mat dp
+http://172.16.48.1:8310/api/v1/tttheA1/es-push?size=1000
+http://172.16.48.1:8310/api/v1/tttheA2/es-push?size=1000
+http://172.16.48.1
+
+:8310/api/v1/tttheA8/es-push?size=1000
+
+// add colum
+
+
+put: https://172.16.44.14:9200/hsan_tcth_the_a1/_mapping
+{
+   "properties": {
+            "maDonViQLHS": {
+                "type": "keyword"
+         }
+         }
+}
