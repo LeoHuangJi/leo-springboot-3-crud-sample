@@ -109,7 +109,7 @@ public class TutorialDAO {
 		}
 
 		List<TutorialQuerydslResultDTO> content = queryFactory
-				.select(Projections.constructor(TutorialQuerydslResultDTO.class, t.id, t.title, t.code, t.description))
+				.select(Projections.fields(TutorialQuerydslResultDTO.class, t.id, t.title, t.code, t.description))
 				.from(t).where(predicate).offset(filter.getPage()).limit(filter.getSize()).orderBy(t.createdDate.desc())
 				.fetch();
 
