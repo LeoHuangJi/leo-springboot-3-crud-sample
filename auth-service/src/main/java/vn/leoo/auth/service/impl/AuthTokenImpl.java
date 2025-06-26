@@ -95,7 +95,7 @@ public class AuthTokenImpl implements AuthTokenService {
 		
 		return  ResponseData.ok(lstDtos);
 	}
-
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public ResponseData<String> logout(String refreshToken) {
 		tokenRepo.findByRefreshToken(refreshToken).ifPresent(token -> {
 			token.setRevoked(true);

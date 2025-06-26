@@ -1,9 +1,8 @@
 package vn.leoo.shopli.service.impl;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import vn.leoo.common.constants.AppErrorCode;
@@ -36,14 +35,15 @@ public class TutorialImpl implements TutorialService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public ResponseData<TutorialEntity> getById(String id) {
 
 		return tutorialRepository.findById(id)
 				.map(entity -> new ResponseData<>(AppErrorCode.SUCCESS, true, Message.OK, entity)).orElseThrow(
 						() -> new ServiceException(AppErrorCode.NOT_FOUND, AppErrorCode.NOT_FOUND.getDefaultMessage()));
 	}
-
 	@Override
+	@Transactional(rollbackFor = Exception.class,propagation = Propagation.REQUIRED)
 	public ResponseData<TutorialInputDTO> create(TutorialInputDTO input) {
 
 		TutorialEntity inserted = tutorialRepository.save(tutorialMapper.toEntity(input));
@@ -52,6 +52,7 @@ public class TutorialImpl implements TutorialService {
 	}
 
 	@Override
+	@Transactional(rollbackFor = Exception.class,propagation = Propagation.REQUIRED)
 	public ResponseData<TutorialInputDTO> update(String id, TutorialInputDTO updated) {
 		if ("F56564941B434C68BF8415BE66449FB5".equals(id)) {
 			return ResponseData.badRequest("bad request", updated);
