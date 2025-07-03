@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -42,6 +43,7 @@ public class TutorialDAO {
 	public TutorialDAO(EntityManager entityManager) {
 		this.entityManager = entityManager;
 	}
+
 	/*
 	 * StringBuilder simple
 	 */
@@ -51,24 +53,23 @@ public class TutorialDAO {
 		StringBuilder countSql = new StringBuilder("SELECT COUNT(*) FROM TUTORIALS WHERE 1=1 ");
 		Map<String, Object> params = new HashMap<>();
 
-		if (status != null) {
+		if (ObjectUtils.isNotEmpty(status)) {
 			sql.append("AND status = :status ");
 			countSql.append("AND status = :status ");
 			params.put("status", status);
 		}
-		if (username != null) {
+
+		if (ObjectUtils.isNotEmpty(username)) {
 			sql.append("AND username ILIKE :username ");
 			countSql.append("AND username ILIKE :username ");
 			params.put("username", "%" + username + "%");
 		}
-
-		if (createdFrom != null) {
+		if (createdFrom != null && !createdFrom.equals(LocalDateTime.MIN)) {
 			sql.append("AND created_at >= :createdFrom ");
 			countSql.append("AND created_at >= :createdFrom ");
 			params.put("createdFrom", createdFrom);
 		}
-
-		if (createdTo != null) {
+		if (createdTo != null && !createdTo.equals(LocalDateTime.MIN)) {
 			sql.append("AND created_at <= :createdTo ");
 			countSql.append("AND created_at <= :createdTo ");
 			params.put("createdTo", createdTo);
@@ -90,6 +91,7 @@ public class TutorialDAO {
 		long total = ((Number) countQuery.getSingleResult()).longValue();
 		return new PageImpl<>(users, pageable, total);
 	}
+
 	/*
 	 * Querydsl simple
 	 */
@@ -99,12 +101,11 @@ public class TutorialDAO {
 		JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
 
 		BooleanBuilder predicate = new BooleanBuilder();
-
-		if (filter.getTitle() != null && !filter.getTitle().isEmpty()) {
+		if (ObjectUtils.isNotEmpty(filter.getTitle())) {
 			predicate.and(t.title.containsIgnoreCase(filter.getTitle()));
 		}
 
-		if (filter.getPublished() != null) {
+		if (ObjectUtils.isNotEmpty(filter.getPublished())) {
 			predicate.and(t.published.eq(true));
 		}
 
@@ -128,9 +129,14 @@ public class TutorialDAO {
 			String orderByQueryBuilder = null;
 
 			if (StringUtils.isNotBlank(filter.getSortColumn()) || StringUtils.isNotBlank(filter.getSortDirection())) {
-				Map<String, String> sortColumnMap = Map.of("id", "t.ID", "title", "t.TITLE", "description",
-						"t.DESCRIPTION", "published", "t.PUBLISHED", "code", "t.CODE", "categoryId", "t.CATEGORY_ID",
-						"parentId", "t.PARENT_ID", "createdDate", "t.CREATEDDATE");
+
+				Map<String, String> sortColumnMap = Map.ofEntries(Map.entry("id", "t.ID"),
+						Map.entry("title", "t.TITLE"), Map.entry("description", "t.DESCRIPTION"),
+						Map.entry("published", "t.PUBLISHED"), Map.entry("code", "t.CODE"),
+						Map.entry("categoryId", "t.CATEGORY_ID"), Map.entry("parentId", "t.PARENT_ID"),
+						Map.entry("createdDate", "t.CREATEDDATE")
+				// ..
+				);
 
 				orderByQueryBuilder = vn.leoo.common.util.StringUtils.buildOrderByClause(filter.getSortColumn(),
 						filter.getSortDirection(), sortColumnMap);
@@ -151,7 +157,7 @@ public class TutorialDAO {
 			query.setParameter("pi_keyword", filter.getKeyword());
 			query.setParameter("pi_title", filter.getTitle());
 			query.setParameter("pi_description", filter.getDescription());
-			query.setParameter("pi_published", filter.getKeyword());
+			query.setParameter("pi_published", filter.getPublished());
 			query.setParameter("pi_order_by_query_builder", orderByQueryBuilder);
 			query.setParameter("pi_page", filter.getPage());
 			query.setParameter("pi_size", filter.getSize());
