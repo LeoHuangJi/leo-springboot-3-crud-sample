@@ -14,14 +14,14 @@ public enum AppErrorCode {
 	 * { "email": "abc", <-- thiếu @ => sai định dạng "password": 1234 <-- kiểu số,
 	 * cần string }
 	 */
-	BAD_REQUEST(4001, HttpStatus.BAD_REQUEST, "Yêu cầu không hợp lệ"),
+	BAD_REQUEST(4000, HttpStatus.BAD_REQUEST, "Yêu cầu không hợp lệ"),
 	//Dữ liệu đúng cú pháp, nhưng vi phạm logic nghiệp vụ (ràng buộc business)
 	UNPROCESSABLE_ENTITY(4001, HttpStatus.UNPROCESSABLE_ENTITY, "Dữ liệu không hợp lệ"),
-	UNAUTHORIZED(4101, HttpStatus.UNAUTHORIZED, "Chưa đăng nhập"),
-	FORBIDDEN(4301, HttpStatus.FORBIDDEN, "Không có quyền"),
+	UNAUTHORIZED(4101, HttpStatus.UNAUTHORIZED, "Không có quyền truy cập"),
+	FORBIDDEN(4301, HttpStatus.FORBIDDEN, "Không có quyền thao tác"),
 	NOT_FOUND(4401, HttpStatus.NOT_FOUND, "Không tìm thấy dữ liệu"),
 	METHOD_NOT_ALLOWED(4500, HttpStatus.METHOD_NOT_ALLOWED, "Method Not Allowed"),
-	CONFLICT(4900, HttpStatus.CONFLICT, "Conflict"),
+	CONFLICT(4900, HttpStatus.CONFLICT, "Xung đột dữ liệu"),
 	// --- 5xx: Server error
 	INTERNAL_ERROR(5000, HttpStatus.INTERNAL_SERVER_ERROR, "Lỗi hệ thống"),
 	DATABASE_ERROR(5001, HttpStatus.INTERNAL_SERVER_ERROR, "Lỗi kết nối cơ sở dữ liệu"),
