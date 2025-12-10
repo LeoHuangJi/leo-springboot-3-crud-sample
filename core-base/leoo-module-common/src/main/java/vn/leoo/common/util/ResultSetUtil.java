@@ -113,7 +113,34 @@ public class ResultSetUtil {
 
 				Class<?> type = field.getType();
 				// System.out.println("----:" + field.getType());
+				// --- HANDLE ORACLE BLOB FIRST ---
+				if (value instanceof Blob blob) {
+
+				    // Field = byte[]
+				    if (type == byte[].class) {
+				        byte[] bytes = blob.getBytes(1, (int) blob.length());
+				        field.set(object, bytes);
+				        return;
+				    }
+
+				    // Field = String Base64
+				    if (type == String.class) {
+				        byte[] bytes = blob.getBytes(1, (int) blob.length());
+				        String base64 = Base64.getEncoder().encodeToString(bytes);
+				        field.set(object, base64);
+				        return;
+				    }
+
+				    // Field = Blob
+				    if (type == Blob.class) {
+				        field.set(object, blob);
+				        return;
+				    }
+				}
+
 				if (isPrimitive(type)) {
+					// CASE 1: Field type = Blob
+					
 					if (!(value instanceof BigInteger)) {
 
 						Class<?> boxed = boxPrimitiveClass(type);
@@ -164,6 +191,7 @@ public class ResultSetUtil {
 						        throw new IllegalArgumentException("Cannot convert type " + value.getClass() + " to BigDecimal");
 						    }
 						}
+						
 						else {
 							value = boxed.cast(value);
 						}
@@ -181,7 +209,7 @@ public class ResultSetUtil {
 	public static boolean isPrimitive(Class<?> type) {
 		return (type == int.class || type == long.class || type == double.class || type == float.class
 				|| type == boolean.class || type == byte.class || type == char.class || type == short.class
-				|| type == Timestamp.class || type == TIMESTAMP.class || type == BigDecimal.class|| type == Clob.class|| type == Blob.class
+				|| type == Timestamp.class || type == TIMESTAMP.class || type == BigDecimal.class
 				|| type == Long.class|| type == Integer.class);
 	}
 
@@ -214,10 +242,6 @@ public class ResultSetUtil {
 			return Timestamp.class;
 		} else if (type == Timestamp.class) {
 			return Timestamp.class;
-		} else if (type == Clob.class) {
-			return Clob.class;
-		} else if (type == Blob.class) {
-			return Blob.class;
 		} else {
 			String string = "class '" + type.getName() + "' is not a primitive";
 			throw new IllegalArgumentException(string);

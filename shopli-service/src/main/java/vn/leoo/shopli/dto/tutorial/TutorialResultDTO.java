@@ -33,5 +33,8 @@ public class TutorialResultDTO {
 	private Long parentId;
 	@DBTable(columnName = "CREATEDDATE")
 	private Timestamp createdDate;
+	
+	@DBTable(columnName = "image")
+	private byte[] image;
 
 }
