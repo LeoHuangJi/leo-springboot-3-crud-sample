@@ -1,3 +1,4 @@
+/*
 package vn.leoo.common.cache;
 
 import java.util.HashMap;
@@ -149,3 +150,4 @@ public class RedisManager {
 		return l;
 	}
 }
+*/

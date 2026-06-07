@@ -7,7 +7,7 @@
 		<groupId>vn.leoo</groupId>
 		<artifactId>vn-leoo-module-parent</artifactId>
 		<version>0.1.1-SNAPSHOT</version>
-		<relativePath>../vn-leoo-module-parent</relativePath>
+		<relativePath>../leoo-module-parent</relativePath>
 	</parent>
 	<artifactId>vn-leoo-module-common</artifactId>
 	<name>vn-leoo-module-common</name>
@@ -118,11 +118,11 @@
 		</dependency>
 
 
-		<dependency>
+	<!--	<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
-
+-->
 		<!--<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>

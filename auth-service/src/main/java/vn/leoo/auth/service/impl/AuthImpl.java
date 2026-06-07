@@ -1,49 +1,27 @@
 package vn.leoo.auth.service.impl;
 
-import java.net.URI;
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.Objects;
-
-import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.apache.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
-import vn.leoo.auth.entity.AuthTokenEntity;
 import vn.leoo.auth.entity.UserEntity;
 import vn.leoo.auth.enums.AuthProvider;
 import vn.leoo.auth.exception.BadRequestException;
 import vn.leoo.auth.mapper.AuthTokenMapper;
 import vn.leoo.auth.payload.AuthResponse;
-import vn.leoo.auth.payload.DeviceSessionDTO;
 import vn.leoo.auth.payload.LoginRequest;
 import vn.leoo.auth.payload.SignUpRequest;
-import vn.leoo.auth.payload.TokenRefreshResponse;
-import vn.leoo.auth.repository.AuthTokenRepository;
 import vn.leoo.auth.repository.UserRepository;
 import vn.leoo.auth.security.TokenProvider;
 import vn.leoo.auth.security.UserPrincipal;
 import vn.leoo.auth.service.AuthService;
 import vn.leoo.auth.service.AuthTokenService;
-import vn.leoo.auth.util.SecurityUtil;
 import vn.leoo.common.constants.AppErrorCode;
-import vn.leoo.common.constants.Message;
 import vn.leoo.common.dto.ResponseData;
 import vn.leoo.common.exception.ServiceException;
 
@@ -139,7 +117,7 @@ public class AuthImpl implements AuthService {
 	 */
 
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-	public ResponseData<UserEntity> registerUser(SignUpRequest signUpRequest) {
+	public ResponseData registerUser(SignUpRequest signUpRequest) {
 		try {
 
 			if (userRepository.existsByEmail(signUpRequest.getEmail())) {
@@ -154,7 +132,6 @@ public class AuthImpl implements AuthService {
 			user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
 
 			UserEntity result = userRepository.save(user);
-
 			return ResponseData.ok(result);
 
 		} catch (Exception e) {

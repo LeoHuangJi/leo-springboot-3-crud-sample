@@ -1,0 +1,234 @@
+[
+  {
+    "field":"soDanhBan",
+    "label":"Số danh bản",
+    "dbColumn":"SO_DANH_BAN",
+    "type":"STRING",
+    "component":"TEXTBOX",
+    "operators":[
+      {"key":"EQUAL","label":"Bằng","sql":"{column} = :{param}","transform":"NONE"},
+      {"key":"NOT_EQUAL","label":"Khác","sql":"{column} <> :{param}","transform":"NONE"},
+      {"key":"CONTAINS","label":"Chứa","sql":"LOWER({column}) LIKE LOWER(:{param})","transform":"LIKE_BOTH"},
+      {"key":"START_WITH","label":"Bắt đầu bằng","sql":"{column} LIKE :{param}","transform":"LIKE_RIGHT"},
+      {"key":"END_WITH","label":"Kết thúc bằng","sql":"{column} LIKE :{param}","transform":"LIKE_LEFT"},
+      {"key":"IS_NULL","label":"Rỗng","sql":"{column} IS NULL"},
+      {"key":"IS_NOT_NULL","label":"Không rỗng","sql":"{column} IS NOT NULL"}
+    ]
+  },
+
+  {
+    "field":"soAGN",
+    "label":"Số AGN",
+    "dbColumn":"SO_AGN",
+    "type":"STRING",
+    "component":"TEXTBOX",
+    "operators":[
+      {"key":"EQUAL","label":"Bằng","sql":"{column} = :{param}","transform":"NONE"},
+      {"key":"NOT_EQUAL","label":"Khác","sql":"{column} <> :{param}","transform":"NONE"},
+      {"key":"CONTAINS","label":"Chứa","sql":"LOWER({column}) LIKE LOWER(:{param})","transform":"LIKE_BOTH"},
+      {"key":"START_WITH","label":"Bắt đầu bằng","sql":"{column} LIKE :{param}","transform":"LIKE_RIGHT"},
+      {"key":"END_WITH","label":"Kết thúc bằng","sql":"{column} LIKE :{param}","transform":"LIKE_LEFT"},
+      {"key":"IS_NULL","label":"Rỗng","sql":"{column} IS NULL"},
+      {"key":"IS_NOT_NULL","label":"Không rỗng","sql":"{column} IS NOT NULL"}
+    ]
+  },
+
+  {
+    "field":"hoTen",
+    "label":"Họ tên",
+    "dbColumn":"HO_TEN",
+    "type":"STRING",
+    "component":"TEXTBOX",
+    "operators":[
+      {"key":"CONTAINS","label":"Chứa","sql":"LOWER({column}) LIKE LOWER(:{param})","transform":"LIKE_BOTH"},
+      {"key":"START_WITH","label":"Bắt đầu bằng","sql":"LOWER({column}) LIKE LOWER(:{param})","transform":"LIKE_RIGHT"},
+      {"key":"END_WITH","label":"Kết thúc bằng","sql":"LOWER({column}) LIKE LOWER(:{param})","transform":"LIKE_LEFT"},
+      {"key":"EQUAL","label":"Bằng","sql":"LOWER({column}) = LOWER(:{param})","transform":"NONE"},
+      {"key":"IS_NULL","label":"Rỗng","sql":"{column} IS NULL"},
+      {"key":"IS_NOT_NULL","label":"Không rỗng","sql":"{column} IS NOT NULL"}
+    ]
+  },
+
+  {
+    "field":"namSinh",
+    "label":"Năm sinh",
+    "dbColumn":"NAM_SINH",
+    "type":"NUMBER",
+    "component":"NUMBER",
+    "operators":[
+      {"key":"EQUAL","label":"Bằng","sql":"{column} = :{param}"},
+      {"key":"GT","label":"Lớn hơn","sql":"{column} > :{param}"},
+      {"key":"GTE","label":"Lớn hơn hoặc bằng","sql":"{column} >= :{param}"},
+      {"key":"LT","label":"Nhỏ hơn","sql":"{column} < :{param}"},
+      {"key":"LTE","label":"Nhỏ hơn hoặc bằng","sql":"{column} <= :{param}"},
+      {"key":"BETWEEN","label":"Trong khoảng","sql":"{column} BETWEEN :{param}_from AND :{param}_to","multiValue":true},
+      {"key":"IS_NULL","label":"Rỗng","sql":"{column} IS NULL"}
+    ]
+  },
+
+  {
+    "field":"gioiTinh",
+    "label":"Giới tính",
+    "dbColumn":"GIOI_TINH",
+    "type":"ENUM",
+    "component":"SELECT",
+    "operators":[
+      {"key":"EQUAL","label":"Bằng","sql":"{column} = :{param}"},
+      {"key":"NOT_EQUAL","label":"Khác","sql":"{column} <> :{param}"},
+      {"key":"IN","label":"Thuộc danh sách","sql":"{column} IN (: {param})","multiValue":true}
+    ],
+    "options":[
+      {"value":"M","label":"Nam"},
+      {"value":"F","label":"Nữ"},
+      {"value":"O","label":"Khác"}
+    ]
+  },
+
+  {
+    "field":"soCCCD",
+    "label":"CCCD",
+    "dbColumn":"SO_CCCD",
+    "type":"STRING",
+    "component":"TEXTBOX",
+    "validation":{
+      "regex":"^[0-9]{12}$"
+    },
+    "operators":[
+      {"key":"EQUAL","label":"Bằng","sql":"{column} = :{param}"},
+      {"key":"CONTAINS","label":"Chứa","sql":"{column} LIKE :{param}","transform":"LIKE_BOTH"},
+      {"key":"START_WITH","label":"Bắt đầu bằng","sql":"{column} LIKE :{param}","transform":"LIKE_RIGHT"},
+      {"key":"END_WITH","label":"Kết thúc bằng","sql":"{column} LIKE :{param}","transform":"LIKE_LEFT"},
+      {"key":"IS_NULL","label":"Rỗng","sql":"{column} IS NULL"},
+      {"key":"INVALID_FORMAT","label":"Sai định dạng","sql":"NOT REGEXP_LIKE({column}, '{regex}')"}
+    ]
+  },
+
+  {
+    "field":"soCMND",
+    "label":"CMND",
+    "dbColumn":"SO_CMND",
+    "type":"STRING",
+    "component":"TEXTBOX",
+    "validation":{
+      "regex":"^(\\d{9}|\\d{12})$"
+    },
+    "operators":[
+      {"key":"EQUAL","label":"Bằng","sql":"{column} = :{param}"},
+      {"key":"CONTAINS","label":"Chứa","sql":"{column} LIKE :{param}","transform":"LIKE_BOTH"},
+      {"key":"START_WITH","label":"Bắt đầu bằng","sql":"{column} LIKE :{param}","transform":"LIKE_RIGHT"},
+      {"key":"END_WITH","label":"Kết thúc bằng","sql":"{column} LIKE :{param}","transform":"LIKE_LEFT"},
+      {"key":"IS_NULL","label":"Rỗng","sql":"{column} IS NULL"},
+      {"key":"INVALID_FORMAT","label":"Sai định dạng","sql":"NOT REGEXP_LIKE({column}, '{regex}')"}
+    ]
+  },
+
+  {
+    "field":"soHoChieu",
+    "label":"Số hộ chiếu",
+    "dbColumn":"SO_HO_CHIEU",
+    "type":"STRING",
+    "component":"TEXTBOX",
+    "operators":[
+      {"key":"EQUAL","label":"Bằng","sql":"{column} = :{param}"},
+      {"key":"CONTAINS","label":"Chứa","sql":"{column} LIKE :{param}","transform":"LIKE_BOTH"},
+      {"key":"START_WITH","label":"Bắt đầu bằng","sql":"{column} LIKE :{param}","transform":"LIKE_RIGHT"},
+      {"key":"END_WITH","label":"Kết thúc bằng","sql":"{column} LIKE :{param}","transform":"LIKE_LEFT"},
+      {"key":"IS_NULL","label":"Rỗng","sql":"{column} IS NULL"}
+    ]
+  },
+
+  {
+    "field":"hoTenCha",
+    "label":"Họ tên cha",
+    "dbColumn":"HO_TEN_CHA",
+    "type":"STRING",
+    "component":"TEXTBOX",
+    "operators":[
+      {"key":"CONTAINS","label":"Chứa","sql":"LOWER({column}) LIKE LOWER(:{param})","transform":"LIKE_BOTH"},
+      {"key":"START_WITH","label":"Bắt đầu bằng","sql":"LOWER({column}) LIKE LOWER(:{param})","transform":"LIKE_RIGHT"},
+      {"key":"END_WITH","label":"Kết thúc bằng","sql":"LOWER({column}) LIKE LOWER(:{param})","transform":"LIKE_LEFT"},
+      {"key":"IS_NULL","label":"Rỗng","sql":"{column} IS NULL"}
+    ]
+  },
+
+  {
+    "field":"hoTenMe",
+    "label":"Họ tên mẹ",
+    "dbColumn":"HO_TEN_ME",
+    "type":"STRING",
+    "component":"TEXTBOX",
+    "operators":[
+      {"key":"CONTAINS","label":"Chứa","sql":"LOWER({column}) LIKE LOWER(:{param})","transform":"LIKE_BOTH"},
+      {"key":"START_WITH","label":"Bắt đầu bằng","sql":"LOWER({column}) LIKE LOWER(:{param})","transform":"LIKE_RIGHT"},
+      {"key":"END_WITH","label":"Kết thúc bằng","sql":"LOWER({column}) LIKE LOWER(:{param})","transform":"LIKE_LEFT"},
+      {"key":"IS_NULL","label":"Rỗng","sql":"{column} IS NULL"}
+    ]
+  },
+
+  {
+    "field":"diaChiThuongTru",
+    "label":"Địa chỉ thường trú",
+    "dbColumn":"DIA_CHI_THUONG_TRU",
+    "type":"STRING",
+    "component":"TEXTBOX",
+    "operators":[
+      {"key":"CONTAINS","label":"Chứa","sql":"LOWER({column}) LIKE LOWER(:{param})","transform":"LIKE_BOTH"},
+      {"key":"START_WITH","label":"Bắt đầu bằng","sql":"LOWER({column}) LIKE LOWER(:{param})","transform":"LIKE_RIGHT"},
+      {"key":"END_WITH","label":"Kết thúc bằng","sql":"LOWER({column}) LIKE LOWER(:{param})","transform":"LIKE_LEFT"},
+      {"key":"IS_NULL","label":"Rỗng","sql":"{column} IS NULL"}
+    ]
+  },
+
+  {
+    "field":"xa",
+    "label":"Xã",
+    "dbColumn":"XA",
+    "type":"STRING",
+    "component":"TEXTBOX",
+    "operators":[
+      {"key":"CONTAINS","label":"Chứa","sql":"LOWER({column}) LIKE LOWER(:{param})","transform":"LIKE_BOTH"},
+      {"key":"EQUAL","label":"Bằng","sql":"LOWER({column}) = LOWER(:{param})"}
+    ]
+  },
+
+  {
+    "field":"huyen",
+    "label":"Huyện",
+    "dbColumn":"HUYEN",
+    "type":"STRING",
+    "component":"TEXTBOX",
+    "operators":[
+      {"key":"CONTAINS","label":"Chứa","sql":"LOWER({column}) LIKE LOWER(:{param})","transform":"LIKE_BOTH"},
+      {"key":"EQUAL","label":"Bằng","sql":"LOWER({column}) = LOWER(:{param})"}
+    ]
+  },
+
+  {
+    "field":"tinh",
+    "label":"Tỉnh",
+    "dbColumn":"TINH",
+    "type":"STRING",
+    "component":"TEXTBOX",
+    "operators":[
+      {"key":"CONTAINS","label":"Chứa","sql":"LOWER({column}) LIKE LOWER(:{param})","transform":"LIKE_BOTH"},
+      {"key":"EQUAL","label":"Bằng","sql":"LOWER({column}) = LOWER(:{param})"}
+    ]
+  },
+
+  {
+    "field":"ngayLap",
+    "label":"Ngày lập",
+    "dbColumn":"NGAY_LAP",
+    "type":"DATE",
+    "component":"DATE",
+    "operators":[
+      {"key":"EQUAL","label":"Bằng","sql":"{column} = :{param}"},
+      {"key":"GT","label":"Sau ngày","sql":"{column} > :{param}"},
+      {"key":"GTE","label":"Từ ngày","sql":"{column} >= :{param}"},
+      {"key":"LT","label":"Trước ngày","sql":"{column} < :{param}"},
+      {"key":"LTE","label":"Đến ngày","sql":"{column} <= :{param}"},
+      {"key":"BETWEEN","label":"Từ ngày đến ngày","sql":"{column} BETWEEN :{param}_from AND :{param}_to","multiValue":true},
+      {"key":"IS_NULL","label":"Rỗng","sql":"{column} IS NULL"}
+    ]
+  }
+]
