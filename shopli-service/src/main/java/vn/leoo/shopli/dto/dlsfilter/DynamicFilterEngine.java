@@ -2,7 +2,7 @@ package vn.leoo.shopli.dto.dlsfilter;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import vn.leoo.shopli.config.FilterConfigLoader;
+import vn.leoo.shopli.service.FilterConfigLoader;
 
 import java.util.HashMap;
 import java.util.Map;

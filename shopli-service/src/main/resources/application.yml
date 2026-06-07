@@ -9,7 +9,7 @@
 #logging.level.org.hibernate.SQL=DEBUG
 #logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
 server:
-  port: 8090
+  port: 8091
 spring:
   messages.basename: message # cấu hình file message
   messages.encoding: UTF-8
