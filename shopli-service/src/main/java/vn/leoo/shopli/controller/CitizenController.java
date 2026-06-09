@@ -7,6 +7,7 @@ import vn.leoo.shopli.dto.dlsfilter.res.FilterFieldResponse;
 import vn.leoo.shopli.service.CitizenService;
 import vn.leoo.shopli.service.FilterConfigService;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ public class CitizenController {
     @PostMapping("/search")
     public Object search(
             @RequestBody
-            DynamicFilterRequest req){
+            DynamicFilterRequest req) throws ParseException {
 
         return service.search(req);
 

@@ -17,9 +17,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
+import com.google.gson.Gson;
 import org.apache.commons.lang3.ObjectUtils;
 
 import oracle.sql.TIMESTAMP;
@@ -93,6 +95,98 @@ public class ResultSetUtil {
 			throw new RuntimeException("Unable to get the records: " + e.getMessage(), e);
 		}
 		return list;
+	}
+
+
+	public static <T> List<T> resultSetToList(
+			List<Map<String, Object>> resultList,
+			Class<T> type)
+			throws IllegalArgumentException, ParseException {
+
+		List<T> list = new ArrayList<>();
+
+
+		try {
+			for (Map<String, Object> row : resultList) {
+				Map<String, Object> caseInsensitiveMap =
+						new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+
+				caseInsensitiveMap.putAll(row);
+
+
+
+				T obj = type.getDeclaredConstructor().newInstance();
+
+				for (Field field : type.getDeclaredFields()) {
+
+					field.setAccessible(true);
+
+					DBTable column = field.getAnnotation(DBTable.class);
+
+					if (column == null || StringUtils.isEmpty(column.columnName())) {
+						continue;
+					}
+					Object value =caseInsensitiveMap.get(
+									column.columnName().toUpperCase()
+							);
+
+					if (value == null) {
+						continue;
+					}
+
+					setFieldValue(obj, field, value);
+				}
+
+				list.add(obj);
+			}
+
+		} catch (Exception e) {
+			throw new RuntimeException("Unable to map result list", e);
+		}
+
+		return list;
+	}
+	private static void setFieldValue(
+			Object object,
+			Field field,
+			Object value)
+            throws IllegalAccessException, IOException, SQLException {
+
+		Class<?> type = field.getType();
+
+		if (value instanceof Blob blob) {
+
+			if (type == byte[].class) {
+				field.set(object,
+						blob.getBytes(1, (int) blob.length()));
+				return;
+			}
+
+			if (type == String.class) {
+				String base64 = Base64.getEncoder()
+						.encodeToString(
+								blob.getBytes(1, (int) blob.length()));
+				field.set(object, base64);
+				return;
+			}
+
+			if (type == Blob.class) {
+				field.set(object, blob);
+				return;
+			}
+		}
+
+		if (type == Long.class || type == long.class) {
+			value = ((Number) value).longValue();
+		}
+		else if (type == Integer.class || type == int.class) {
+			value = ((Number) value).intValue();
+		}
+		else if (type == BigDecimal.class && !(value instanceof BigDecimal)) {
+			value = BigDecimal.valueOf(((Number) value).doubleValue());
+		}
+
+		field.set(object, value);
 	}
 
 	public static void loadResultSetIntoObject(ResultSet rst, Object object, List<String> availableColumns)
@@ -247,4 +341,8 @@ public class ResultSetUtil {
 			throw new IllegalArgumentException(string);
 		}
 	}
+
+
+
+
 }
