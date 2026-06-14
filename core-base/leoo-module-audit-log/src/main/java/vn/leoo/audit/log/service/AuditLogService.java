@@ -48,6 +48,8 @@ public class AuditLogService {
                 .traceId(context.getTraceId())
                 .module(context.getModule())
                 .action(context.getAction())
+                .rootType(context.getRootType())
+                .rootId(context.getRootId())
                 .description(context.getDescription())
                 .actorInfo(toJson(context.getActorInfo()))
                 .createdAt(LocalDateTime.now())

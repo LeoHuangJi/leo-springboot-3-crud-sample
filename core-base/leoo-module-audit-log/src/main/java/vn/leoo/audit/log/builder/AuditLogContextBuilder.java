@@ -17,21 +17,25 @@ public class AuditLogContextBuilder {
 
     private final ObjectMapper objectMapper;
 
-    public Builder newLog(String module, String action) {
-        return new Builder(module, action);
+    public Builder newLog(String module, String action, String rootType, String rootId) {
+        return new Builder(module, action, rootType, rootId);
     }
 
     public class Builder {
 
         private final String module;
         private final String action;
+        private final String rootType;
+        private final String rootId;
         private String description;
         private AuditLogContext.ActorInfo actorInfo;
         private final List<AuditLogContext.DetailContext> details = new ArrayList<>();
 
-        private Builder(String module, String action) {
+        private Builder(String module, String action, String rootType, String rootId) {
             this.module = module;
             this.action = action;
+            this.rootType = rootType;
+            this.rootId   = rootId;
         }
 
         public Builder description(String description) {
@@ -103,6 +107,8 @@ public class AuditLogContextBuilder {
                     .traceId(MDC.get("traceId"))  // Lấy từ MDC của request
                     .module(module)
                     .action(action)
+                    .rootType(rootType)
+                    .rootId(rootId)
                     .description(description)
                     .actorInfo(actorInfo)
                     .details(details)

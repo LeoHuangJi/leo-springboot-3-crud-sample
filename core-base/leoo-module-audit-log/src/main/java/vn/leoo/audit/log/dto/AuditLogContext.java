@@ -15,6 +15,8 @@ public class AuditLogContext {
     private String traceId;
     private String module;
     private String action;
+    private String rootType;
+    private String rootId;
     private String description;
     private ActorInfo actorInfo;
     private List<DetailContext> details;

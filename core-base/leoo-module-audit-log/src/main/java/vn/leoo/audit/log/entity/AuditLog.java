@@ -39,7 +39,11 @@ public class AuditLog {
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
+    @Column(name = "root_type", nullable = false)
+    private String rootType;
 
+    @Column(name = "root_id", nullable = false)
+    private String rootId;
     @OneToMany(mappedBy = "auditLog", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<AuditLogDetail> details = new ArrayList<>();
 }

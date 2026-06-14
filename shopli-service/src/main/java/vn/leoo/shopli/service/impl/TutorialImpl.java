@@ -3,7 +3,6 @@ package vn.leoo.shopli.service.impl;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.MDC;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -65,27 +64,14 @@ public class TutorialImpl implements TutorialService {
 	@Transactional(rollbackFor = Exception.class,propagation = Propagation.REQUIRED)
 	public ResponseData<TutorialInputDTO> update(String id, TutorialInputDTO updated, HttpServletRequest httpRequest) {
 		TutorialEntity ts = tutorialRepository.findById(id).orElseThrow();
-		Map<String, String> contextMap = MDC.getCopyOfContextMap();
-		String s=	MDC.getMDCAdapter().get("traceId");
-
 
 		eventPublisher.publishEvent(
-				auditBuilder.newLog("HO_SO", "CAP_NHAT_HS")
+				auditBuilder.newLog("HO_SO", "CAP_NHAT","HO_SO",id)
 						.description("Cập nhật hồ sơ: " + id)
 						.actorFromSecurityContext(httpRequest)
 						.addUpdate("HO_SO", id,ts.deepCopy(),updated)
-						.build()
-		);
-
-
-		eventPublisher.publishEvent(
-				auditBuilder.newLog("HO_SO", "CAP_NHAT_HS")
-						.description("Cập nhật hồ sơ: " + id)
-						.actorFromSecurityContext(httpRequest)
-						.addUpdate("HO_SO",   id,              hoSoSnap,   hoSo)
-						.addUpdate("THU_TUC", thuTuc.getId(),  thuTucSnap, thuTuc)
-						.addUpdate("DIA_CHI", diaChi.getId(),  diaChiSnap, diaChi)
-						.
+						.addInsert("THE", id,updated)
+						.addDelete("TAP",id,ts)
 						.build()
 		);
 
