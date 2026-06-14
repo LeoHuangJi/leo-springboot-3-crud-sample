@@ -2,7 +2,9 @@ package vn.leoo.common.exception;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -33,15 +35,15 @@ public class ApplicationExceptionHandler {
 				HttpStatus.UNSUPPORTED_MEDIA_TYPE);
 	}
 
-//	@ExceptionHandler(HttpMessageNotReadableException.class)
-//	public ResponseEntity<Map<String, String>> handleException(HttpMessageNotReadableException e) throws IOException {
-//
-//		Map<String, String> errorResponse = new HashMap<>();
-//		errorResponse.put("message", e.getLocalizedMessage());
-//		errorResponse.put("status", HttpStatus.BAD_REQUEST.toString());
-//
-//		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-//	}
+	@ExceptionHandler(RuntimeException.class)
+	public ResponseEntity<Map<String, String>> handleException(RuntimeException e) throws IOException {
+
+		Map<String, String> errorResponse = new HashMap<>();
+		errorResponse.put("message", e.getLocalizedMessage());
+		errorResponse.put("status", HttpStatus.BAD_REQUEST.toString());
+
+		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+	}
 
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
 	public ResponseEntity<Object> handleException(HttpRequestMethodNotSupportedException e) throws IOException {

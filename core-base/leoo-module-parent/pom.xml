@@ -21,6 +21,7 @@
 	<modules>
 		<module>../leoo-module-common</module>
 		<module>../leoo-module-resource-server</module>
+		<module>../leoo-module-audit-log</module>
 	</modules>
 
 

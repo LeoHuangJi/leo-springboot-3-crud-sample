@@ -2,6 +2,7 @@ package vn.leoo.shopli.controller;
 
 import java.util.Locale;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -58,8 +59,8 @@ public class TutorialController {
 	})
 
 	public ResponseEntity<ResponseData<TutorialInputDTO>> update(@PathVariable String id,
-			@Valid  @RequestBody TutorialInputDTO dto) {
-		ResponseData<TutorialInputDTO> response = tutorialService.update(id, dto);
+			@Valid  @RequestBody TutorialInputDTO dto, HttpServletRequest httpRequest) {
+		ResponseData<TutorialInputDTO> response = tutorialService.update(id, dto,httpRequest);
 		return new ResponseEntity<>(response, response.getHttpStatus());
 	}
 

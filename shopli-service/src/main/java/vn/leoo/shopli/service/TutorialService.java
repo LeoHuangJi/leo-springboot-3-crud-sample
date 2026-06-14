@@ -1,5 +1,6 @@
 package vn.leoo.shopli.service;
 
+import jakarta.servlet.http.HttpServletRequest;
 import vn.leoo.common.dto.PageResponse;
 import vn.leoo.common.dto.ResponseData;
 import vn.leoo.entity.TutorialEntity;
@@ -13,7 +14,7 @@ public interface TutorialService {
 
 	ResponseData<TutorialEntity> getById(String id);
 
-	ResponseData<TutorialInputDTO> update(String id, TutorialInputDTO updated);
+	ResponseData<TutorialInputDTO> update(String id, TutorialInputDTO updated, HttpServletRequest httpRequest);
 
 	ResponseData<TutorialInputDTO> create(TutorialInputDTO input);
 	 ResponseData<PageResponse<TutorialQuerydslResultDTO>> searchQuerydsl(TutorialFilterDTO filter);

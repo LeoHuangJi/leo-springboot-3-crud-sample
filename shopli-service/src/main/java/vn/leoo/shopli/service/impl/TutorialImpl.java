@@ -1,10 +1,15 @@
 package vn.leoo.shopli.service.impl;
 
 
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.MDC;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import vn.leoo.audit.log.builder.AuditLogContextBuilder;
 import vn.leoo.common.constants.AppErrorCode;
 import vn.leoo.common.constants.Message;
 import vn.leoo.common.dto.PageResponse;
@@ -20,19 +25,24 @@ import vn.leoo.shopli.mapper.TutorialMapper;
 import vn.leoo.shopli.repository.TutorialRepository;
 import vn.leoo.shopli.service.TutorialService;
 
+import java.util.Map;
+
+@RequiredArgsConstructor
 @Service
 public class TutorialImpl implements TutorialService {
-	private TutorialRepository tutorialRepository;
-	private TutorialDAO daoTutorialDAO;
+	private final TutorialRepository tutorialRepository;
+	private final TutorialDAO daoTutorialDAO;
 	private final TutorialMapper tutorialMapper;
 
-	public TutorialImpl(TutorialRepository tutorialRepository, TutorialDAO daoTutorialDAO,
+	private final AuditLogContextBuilder auditBuilder;
+	private final ApplicationEventPublisher eventPublisher;
+/*	public TutorialImpl(TutorialRepository tutorialRepository, TutorialDAO daoTutorialDAO,
 			TutorialMapper tutorialMapper) {
 		super();
 		this.tutorialRepository = tutorialRepository;
 		this.daoTutorialDAO = daoTutorialDAO;
 		this.tutorialMapper = tutorialMapper;
-	}
+	}*/
 
 	@Override
 	@Transactional(readOnly = true)
@@ -53,16 +63,42 @@ public class TutorialImpl implements TutorialService {
 
 	@Override
 	@Transactional(rollbackFor = Exception.class,propagation = Propagation.REQUIRED)
-	public ResponseData<TutorialInputDTO> update(String id, TutorialInputDTO updated) {
-		if ("F56564941B434C68BF8415BE66449FB5".equals(id)) {
-			return ResponseData.badRequest("bad request", updated);
-		}
+	public ResponseData<TutorialInputDTO> update(String id, TutorialInputDTO updated, HttpServletRequest httpRequest) {
+		TutorialEntity ts = tutorialRepository.findById(id).orElseThrow();
+		Map<String, String> contextMap = MDC.getCopyOfContextMap();
+		String s=	MDC.getMDCAdapter().get("traceId");
+
+
+		eventPublisher.publishEvent(
+				auditBuilder.newLog("HO_SO", "CAP_NHAT_HS")
+						.description("Cập nhật hồ sơ: " + id)
+						.actorFromSecurityContext(httpRequest)
+						.addUpdate("HO_SO", id,ts.deepCopy(),updated)
+						.build()
+		);
+
+
+		eventPublisher.publishEvent(
+				auditBuilder.newLog("HO_SO", "CAP_NHAT_HS")
+						.description("Cập nhật hồ sơ: " + id)
+						.actorFromSecurityContext(httpRequest)
+						.addUpdate("HO_SO",   id,              hoSoSnap,   hoSo)
+						.addUpdate("THU_TUC", thuTuc.getId(),  thuTucSnap, thuTuc)
+						.addUpdate("DIA_CHI", diaChi.getId(),  diaChiSnap, diaChi)
+						.
+						.build()
+		);
 
 		return tutorialRepository.findById(id).map(existing -> {
 			tutorialMapper.toEntity(updated);
 			tutorialRepository.save(existing);
 			return ResponseData.ok(updated);
 		}).orElse(ResponseData.notFound(Message.NOT_FOUND));
+
+
+
+
+
 	}
 
 	@Override

@@ -7,6 +7,4 @@ import vn.leoo.entity.CitizenEntity;
 
 @Repository
 public interface CitizenRepository extends JpaRepository<CitizenEntity, String>,QuerydslPredicateExecutor<CitizenEntity> {
-
-
 }

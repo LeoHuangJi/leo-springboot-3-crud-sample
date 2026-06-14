@@ -2,6 +2,7 @@ package vn.leoo.entity;
 
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -119,5 +120,12 @@ public class TutorialEntity {
 
 	@Column(name = "category_id")
 	private Long category_id;
-
+	public TutorialEntity deepCopy() {
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			return mapper.readValue(mapper.writeValueAsString(this), TutorialEntity.class);
+		} catch (Exception e) {
+			throw new RuntimeException("deepCopy thất bại", e);
+		}
+	}
 }
