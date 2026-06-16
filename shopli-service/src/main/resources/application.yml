@@ -103,4 +103,13 @@ springdoc:
     operationsSorter: method
     display-request-duration: true
     persistAuthorization: true
-
+audit:
+  mode: kafka # EVENT | KAFKA
+  async:
+    core-pool-size: 2
+    max-pool-size: 5
+    queue-capacity: 1000
+    keep-alive-seconds: 60
+  kafka:
+     topic: 1213,
+     group-id: 12321

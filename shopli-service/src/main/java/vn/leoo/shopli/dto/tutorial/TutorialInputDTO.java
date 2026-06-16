@@ -29,7 +29,7 @@ public class TutorialInputDTO {
     @Size(min=20, max = 1000, message = "{error.field.validation.minMaxLength}")
     private String description;
 
-    private boolean published;
+    private Boolean published;
 
     private String parentId;
 

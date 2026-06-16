@@ -14,7 +14,7 @@ public interface TutorialService {
 
 	ResponseData<TutorialEntity> getById(String id);
 
-	ResponseData<TutorialInputDTO> update(String id, TutorialInputDTO updated, HttpServletRequest httpRequest);
+	ResponseData<TutorialInputDTO> update(String id, TutorialInputDTO updated);
 
 	ResponseData<TutorialInputDTO> create(TutorialInputDTO input);
 	 ResponseData<PageResponse<TutorialQuerydslResultDTO>> searchQuerydsl(TutorialFilterDTO filter);

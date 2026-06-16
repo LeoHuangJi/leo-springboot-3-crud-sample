@@ -5,10 +5,14 @@ import java.sql.Timestamp;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "tutorials", schema = "SHOPLI")
+@Setter
+@Getter
 public class TutorialEntity {
 
 	@Id
@@ -26,7 +30,7 @@ public class TutorialEntity {
 	private String description;
 
 	@Column(name = "published")
-	private boolean published;
+	private Boolean published;
 
 	@Column(name = "parent_id")
 	private String parent_id;
@@ -41,91 +45,6 @@ public class TutorialEntity {
         createdDate =  new Timestamp(System.currentTimeMillis());
     }
 
-	public TutorialEntity(String id, String title, String code, String description, boolean published, String parent_id,
-			Timestamp createdDate, long category_id) {
-		super();
-		this.id = id;
-		this.title = title;
-		this.code = code;
-		this.description = description;
-		this.published = published;
-		this.parent_id = parent_id;
-		this.createdDate = createdDate;
-		this.category_id = category_id;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public boolean isPublished() {
-		return published;
-	}
-
-	public void setPublished(boolean published) {
-		this.published = published;
-	}
-
-	public String getParent_id() {
-		return parent_id;
-	}
-
-	public void setParent_id(String parent_id) {
-		this.parent_id = parent_id;
-	}
-
-	public Timestamp getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(Timestamp createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public long getCategory_id() {
-		return category_id;
-	}
-
-	public void setCategory_id(long category_id) {
-		this.category_id = category_id;
-	}
-
 	@Column(name = "category_id")
 	private Long category_id;
-	public TutorialEntity deepCopy() {
-		try {
-			ObjectMapper mapper = new ObjectMapper();
-			return mapper.readValue(mapper.writeValueAsString(this), TutorialEntity.class);
-		} catch (Exception e) {
-			throw new RuntimeException("deepCopy thất bại", e);
-		}
-	}
 }

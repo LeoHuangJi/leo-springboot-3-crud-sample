@@ -207,7 +207,7 @@
 		<dependency>
 			<groupId>vn.leoo</groupId>
 			<artifactId>vn-leoo-module-audit-log</artifactId>
-			<version>0.1.1-SNAPSHOT</version>
+			<version>3.2.5</version>
 		</dependency>
 	</dependencies>
 
@@ -231,12 +231,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-
 			</plugin>
-	
-			
-
-
 		</plugins>
 	</build>
 

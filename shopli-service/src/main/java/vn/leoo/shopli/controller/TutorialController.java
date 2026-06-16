@@ -59,8 +59,8 @@ public class TutorialController {
 	})
 
 	public ResponseEntity<ResponseData<TutorialInputDTO>> update(@PathVariable String id,
-			@Valid  @RequestBody TutorialInputDTO dto, HttpServletRequest httpRequest) {
-		ResponseData<TutorialInputDTO> response = tutorialService.update(id, dto,httpRequest);
+			@Valid  @RequestBody TutorialInputDTO dto) {
+		ResponseData<TutorialInputDTO> response = tutorialService.update(id, dto);
 		return new ResponseEntity<>(response, response.getHttpStatus());
 	}
 
