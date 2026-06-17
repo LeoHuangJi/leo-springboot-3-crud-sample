@@ -4,28 +4,4 @@ The project is well-structured with clear separation of layers: Entity, DTO, Rep
 It also supports calling stored procedures in the database using StoredProcedureQuery.
 
 Audit Log Module Overview Purpose Records the history of business actions (create, approve, issue number, update, delete) across the system, enabling traceability, history lookup, and compliance auditing.
-Business Service
-    │
-    ├── Executes business logic (save/update/delete entity)
-    │
-    └── AuditLogContextBuilder
-            │
-            ├── newLog(module, action, rootType, rootId)
-            │       → auto-resolves actor (username, role, ip, userAgent...)
-            │       → auto-resolves traceId (from MDC, set by TraceIdFilter)
-            │
-            ├── addInsert / addUpdate / addDelete / addList
-            │       → computes diff between old and new (only changed fields)
-            │
-            └── build() → AuditLogContext (DTO)
-                    │
-                    └── AuditEventPublisher.publish(context)
-                            │
-                            ├── Inside @Transactional → Spring Event, waits for AFTER_COMMIT
-                            ├── Outside @Transactional (Controller, batch) → saved directly, async
-                            └── (optional) Kafka — for distributed systems
-                                    │
-                                    └── AuditLogService (@Async on dedicated thread pool)
-                                            │
-                                            └── Persists audit_log + audit_log_detail
-                                                    (with fallback file logging on DB failure)
+<img width="726" height="716" alt="image" src="https://github.com/user-attachments/assets/4a09d8f2-aae3-4f0c-ba1d-3d588b26ba7c" />
