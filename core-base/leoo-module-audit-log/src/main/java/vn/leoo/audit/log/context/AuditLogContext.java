@@ -24,6 +24,10 @@ public class AuditLogContext {
     private String rootId;
     private String description;
     private ActorInfo actorInfo;
+    private String machine;
+    private String userAgent;
+    private String endpoint;
+
     private List<DetailContext> details;
 
     @Getter

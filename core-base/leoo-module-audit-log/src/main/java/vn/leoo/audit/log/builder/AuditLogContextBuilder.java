@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import vn.leoo.audit.log.config.ActorInfoResolver;
 import vn.leoo.audit.log.config.DiffOptions;
 import vn.leoo.audit.log.context.AuditLogContext;
+import vn.leoo.audit.log.util.Helper;
 import vn.leoo.audit.log.util.ListDiffUtil;
 
 import java.time.LocalDateTime;
@@ -24,11 +25,13 @@ public class AuditLogContextBuilder {
     private final ObjectMapper objectMapper;
     private final ListDiffUtil listDiffUtil;
     public Builder newLog(String module, String action, String rootType, String rootId) {
-        return new Builder(module, action, rootType, rootId).actor();
+        return new Builder(module, action, rootType, rootId,objectMapper, listDiffUtil, actorInfoResolver ).actor();
     }
 
-    public class Builder {
-
+    public static class Builder {
+        private final ObjectMapper      objectMapper;
+        private final ListDiffUtil      listDiffUtil;
+        private final ActorInfoResolver actorInfoResolver;
         private final String module;
         private final String action;
         private final String rootType;
@@ -37,11 +40,16 @@ public class AuditLogContextBuilder {
         private AuditLogContext.ActorInfo actorInfo;
         private final List<AuditLogContext.DetailContext> details = new ArrayList<>();
 
-        private Builder(String module, String action, String rootType, String rootId) {
+        private Builder(String module, String action, String rootType, String rootId,  ObjectMapper objectMapper,
+                        ListDiffUtil listDiffUtil,
+                        ActorInfoResolver actorInfoResolve) {
             this.module = module;
             this.action = action;
             this.rootType = rootType;
             this.rootId   = rootId;
+            this.objectMapper      = objectMapper;
+            this.listDiffUtil      = listDiffUtil;
+            this.actorInfoResolver = actorInfoResolve;
         }
 
         public Builder description(String description) {
@@ -168,6 +176,9 @@ public class AuditLogContextBuilder {
                     .description(description)
                     .actorInfo(actorInfo)
                     .details(details)
+                    .endpoint(Helper.getEndpoint())
+                    .machine(Helper.getMachineId())
+                    .userAgent(Helper.getUserAgent())
                     .build();
         }
 

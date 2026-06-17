@@ -17,4 +17,5 @@ D:\CODE\Java\Technical\leo-springboot-3-crud-sample\core-base\leoo-module-audit-
 D:\CODE\Java\Technical\leo-springboot-3-crud-sample\core-base\leoo-module-audit-log\src\main\java\vn\leoo\audit\log\util\DeepCopyUtil.java
 D:\CODE\Java\Technical\leo-springboot-3-crud-sample\core-base\leoo-module-audit-log\src\main\java\vn\leoo\audit\log\repo\AuditLogDetailRepository.java
 D:\CODE\Java\Technical\leo-springboot-3-crud-sample\core-base\leoo-module-audit-log\src\main\java\vn\leoo\audit\log\config\AuditKafkaProperties.java
+D:\CODE\Java\Technical\leo-springboot-3-crud-sample\core-base\leoo-module-audit-log\src\main\java\vn\leoo\audit\log\util\Helper.java
 D:\CODE\Java\Technical\leo-springboot-3-crud-sample\core-base\leoo-module-audit-log\src\main\java\vn\leoo\audit\log\util\ListDiffUtil.java

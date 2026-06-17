@@ -2,6 +2,8 @@ package vn.leoo.audit.log.publish.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
@@ -32,22 +34,23 @@ import vn.leoo.audit.log.publish.AuditEventPublisher;
  */
 @Slf4j
 @Component
-@RequiredArgsConstructor
 @ConditionalOnProperty(
-       name = "audit.mode",
+        name = "audit.mode",
         havingValue = "kafka"
 )
 public class KafkaAuditEventPublisher implements AuditEventPublisher {
-
-    private final KafkaTemplate<String, AuditLogContext> kafkaTemplate;
-    private final AuditKafkaProperties properties;
+    @Autowired
+   // @Qualifier("jsonSerializerTemplateAppAuditLog")
+    private KafkaTemplate<String, Object> kafkaTemplate;
+    @Autowired
+    private AuditKafkaProperties properties;
 
     @Override
     public void publish(AuditLogContext context) {
         String topic = properties.getTopic();
-        String key   = context.getRootType() + ":" + context.getRootId();
+        String key = context.getRootType() + ":" + context.getRootId();
 
-        kafkaTemplate.send(topic, key, context)
+        kafkaTemplate.send(topic, null, null, context)
                 .whenComplete((result, ex) -> {
                     if (ex != null) {
                         // Kafka thất bại → fallback ghi log, không mất audit

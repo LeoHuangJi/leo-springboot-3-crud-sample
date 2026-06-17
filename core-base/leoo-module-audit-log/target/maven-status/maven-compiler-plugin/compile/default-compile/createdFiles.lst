@@ -10,6 +10,7 @@ vn\leoo\audit\log\listener\KafkaEventListener.class
 vn\leoo\audit\log\builder\AuditLogContextBuilder.class
 vn\leoo\audit\log\context\AuditLogContext.class
 vn\leoo\audit\log\entity\AuditLog.class
+vn\leoo\audit\log\util\Helper.class
 vn\leoo\audit\log\util\DeepCopyUtil.class
 vn\leoo\audit\log\context\AuditLogContext$AuditLogContextBuilder.class
 vn\leoo\audit\log\entity\AuditLogDetail$AuditLogDetailBuilder.class

@@ -61,14 +61,19 @@ public class TutorialImpl implements TutorialService {
         TutorialEntity tutorialSnap = deepCopyUtil.copy(ts);
         TutorialEntity tutorialEntity = tutorialMapper.toEntity(updated);
         tutorialRepository.save(tutorialEntity);
-        AuditLogContextBuilder.Builder auditBuilder = auditLogContextBuilder
-                .newLog("HO_SO", "HO_SO_DUYET", "HO_SO", id);
+        for (int i=0;i<10;i++){
+            tutorialSnap.setTitle(updated.getTitle()+i);
+            AuditLogContextBuilder.Builder auditBuilder = auditLogContextBuilder
+                    .newLog("HO_SO", "HO_SO_DUYET", "HO_SO", id);
 
-        auditBuilder.addUpdate("HO_SO", id, tutorialSnap, tutorialEntity); // ← append
+            auditBuilder.addUpdate("HO_SO", id, tutorialSnap, tutorialEntity); // ← append
 
-        auditBuilder.addUpdate("TAP", id, tutorialSnap, tutorialEntity);  // ← append
+            auditBuilder.addUpdate("TAP", id, tutorialSnap, tutorialEntity);  // ← append
 
-        eventPublisher.publish(auditBuilder.build());
+            eventPublisher.publish(auditBuilder.build());
+        }
+
+
         return ResponseData.ok(updated);
 
     }

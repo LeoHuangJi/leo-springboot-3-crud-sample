@@ -45,6 +45,15 @@ public class AuditLog {
 
     @Column(name = "root_id", nullable = false)
     private String rootId;
+
+    @Column(name = "MACHINE", nullable = false)
+    private String machine;
+    @Column(name = "USER_AGENT", nullable = false)
+    private String userAgent;
+    @Column(name = "ENDPOINT", nullable = false)
+    private String endpoint;
+
+
     @OneToMany(mappedBy = "auditLog", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<AuditLogDetail> details = new ArrayList<>();
 }

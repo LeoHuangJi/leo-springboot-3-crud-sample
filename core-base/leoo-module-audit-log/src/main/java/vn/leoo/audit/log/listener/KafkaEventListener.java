@@ -1,10 +1,8 @@
 package vn.leoo.audit.log.listener;
-
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.modelmapper.ModelMapper;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
@@ -21,24 +19,22 @@ import vn.leoo.audit.log.service.AuditLogService;
 )
 public class KafkaEventListener {
     private final AuditLogService auditLogService;
-    private final ModelMapper modelMapper;
+    private final ObjectMapper modelMapper;
 
-    @KafkaListener(groupId = "{audit.kafka.group-id}", topics = "{audit.kafka.topic}")
+    @KafkaListener(
+            groupId = "${audit.kafka.group-id}",
+            topics = "${audit.kafka.topic}", containerFactory = "objectListenerContainerFactoryAppAuditLog"
+    )
     public void auditListener(ConsumerRecord<String, Object> body, Acknowledgment acknowledgment) {
         try {
             log.info("=============================== value: " + body.value());
-            AuditLogContext context = modelMapper.map(body, AuditLogContext.class);
+            AuditLogContext context =   modelMapper.convertValue(body.value(), AuditLogContext.class);;
             auditLogService.save(context);
         } catch (Exception e) {
-            log.info("Exception kafka: " + e.getMessage());
+            log.info("Exception kafka: {}", e.getMessage());
         } finally {
             acknowledgment.acknowledge();
         }
-        if (body.value() != null) {
-
-        }
-
-
     }
 
 }

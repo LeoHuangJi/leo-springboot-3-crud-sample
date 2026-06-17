@@ -41,6 +41,9 @@ public class AuditLogService {
                 .description(context.getDescription())
                 .actorInfo(toJson(context.getActorInfo()))
                 .createdAt(LocalDateTime.now())
+                .endpoint(context.getEndpoint())
+                .userAgent(context.getUserAgent())
+                .machine(context.getMachine())
                 .build();
 
         auditLogRepository.save(auditLog);

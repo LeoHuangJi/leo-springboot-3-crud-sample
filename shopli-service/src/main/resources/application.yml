@@ -72,10 +72,22 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       properties:
+
+        heartbeat:
+          interval:
+            ms: 10000
+        max:
+          poll:
+            records: 100
+            interval:
+              ms: 300000
+        session:
+          timeout:
+            ms: 30000
         spring:
            json:
              trusted:
-               packages: vn.kafka.app.*
+               packages: "vn.leoo.audit.log.context.*"
            deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
            deserializer.value.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
     producer:
@@ -111,5 +123,5 @@ audit:
     queue-capacity: 1000
     keep-alive-seconds: 60
   kafka:
-     topic: 1213,
+     topic: audit-shopli-log
      group-id: 12321
